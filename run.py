@@ -67,7 +67,8 @@ for index, ain in enumerate(ains):
     else:
         year_built = None
 
-    land_use_2 = soup.select('td[colspan="3"]')[0]
+    land_use_2 = soup.select('td[colspan="3"]')
+    land_use_2 = land_use_2[0] if land_use_2 else None
 
     result_dict = {
         'AIN': ain,
@@ -84,7 +85,7 @@ for index, ain in enumerate(ains):
         'LAND VALUE': land_value.text,
         'SALE DATE': sale_date.text if sale_date else '',
         'SALE PRICE': sale_price.text if sale_price else '',
-        'LAND USE 2': land_use_2.text,
+        'LAND USE 2': land_use_2.text if land_use_2 else '',
         'YEAR BUILT': year_built.text if year_built else ''
     }
 

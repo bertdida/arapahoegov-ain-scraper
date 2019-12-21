@@ -49,8 +49,8 @@ with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
     dict_writer = csv.DictWriter(results_file, fieldnames=result_keys)
     dict_writer.writeheader()
 
-    for index, ain in enumerate(ains):
-        print(index + 1, ain)
+    for index, ain in enumerate(ains, start=1):
+        print(index, ain)
 
         response = get_request(ain)
         soup = BeautifulSoup(response.content, 'html.parser')

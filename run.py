@@ -27,7 +27,7 @@ def get_request(ain):
 
 with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
         open('failed_ains.txt', 'a') as failed_ains_file:
-    result_headers = [
+    result_keys = [
         'AIN',
         'PARCEL ID',
         'SITE ADDRESS',
@@ -46,7 +46,7 @@ with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
         'YEAR BUILT',
     ]
 
-    dict_writer = csv.DictWriter(results_file, fieldnames=result_headers)
+    dict_writer = csv.DictWriter(results_file, fieldnames=result_keys)
     dict_writer.writeheader()
 
     for index, ain in enumerate(ains):
@@ -91,24 +91,25 @@ with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
         land_use_2 = soup.select('td[colspan="3"]')
         land_use_2 = land_use_2[0] if land_use_2 else None
 
-        result_dict = {
-            'AIN': ain,
-            'PARCEL ID': parcel_id.text,
-            'SITE ADDRESS': site_address.text,
-            'SITE CITY': site_city.text,
-            'OWNER NAME': owner_name.text,
-            'MAILING ADDRESS': mailing_address.text,
-            'MAIL CITY STATE ZIP': mail_city_state_zip.text,
-            'LAND USE': land_use.text,
-            'LEGAL DESC': legal_description.text,
-            'JUST VALUE': just_value.text,
-            'BLDG VALUE': building_value.text,
-            'LAND VALUE': land_value.text,
-            'SALE DATE': sale_date.text if sale_date else '',
-            'SALE PRICE': sale_price.text if sale_price else '',
-            'LAND USE 2': land_use_2.text if land_use_2 else '',
-            'YEAR BUILT': year_built.text if year_built else ''
-        }
+        result_values = [
+            ain,
+            parcel_id.text,
+            site_address.text,
+            site_city.text,
+            owner_name.text,
+            mailing_address.text,
+            mail_city_state_zip.text,
+            land_use.text,
+            legal_description.text,
+            just_value.text,
+            building_value.text,
+            land_value.text,
+            sale_date.text if sale_date else '',
+            sale_price.text if sale_price else '',
+            land_use_2.text if land_use_2 else '',
+            year_built.text if year_built else ''
+        ]
 
-        result_dict_stripped = {key: value.strip() for key, value in result_dict.items()}
-        dict_writer.writerow(result_dict_stripped)
+        result_stripped = [value.strip() for value in result_values]
+        result_dict = dict(zip(result_keys, result_values))
+        dict_writer.writerow(result_dict)

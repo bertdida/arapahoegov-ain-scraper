@@ -3,3 +3,4 @@ failed_ains.txt
 ains.txt.complete
 ains.txt
 results.csv
+__pycache__/

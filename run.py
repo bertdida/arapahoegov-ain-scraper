@@ -25,7 +25,8 @@ def get_request(ain):
             prev_working_proxy = None
 
 
-with open('results.csv', 'w', encoding='utf8', newline='') as results_file:
+with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
+        open('failed_ains.txt', 'a') as failed_ains_file:
     result_headers = [
         'AIN',
         'PARCEL ID',
@@ -55,9 +56,7 @@ with open('results.csv', 'w', encoding='utf8', newline='') as results_file:
         soup = BeautifulSoup(response.content, 'html.parser')
 
         if soup.find(lambda tag: 'No matching records were found' in tag.text):
-            with open('failed_ains.txt', 'a') as failed_ains_file:
-                failed_ains_file.write(ain + '\n')
-
+            failed_ains_file.write(ain + '\n')
             continue  # not found, skip
 
         parcel_id = soup.find('span', {'id': 'ucParcelHeader_lblPinTxt'})

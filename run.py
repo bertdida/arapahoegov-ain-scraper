@@ -111,5 +111,5 @@ with open('results.csv', 'w', encoding='utf8', newline='') as results_file, \
         ]
 
         result_stripped = [value.strip() for value in result_values]
-        result_dict = dict(zip(result_keys, result_values))
+        result_dict = dict(zip(result_keys, result_stripped))
         dict_writer.writerow(result_dict)
